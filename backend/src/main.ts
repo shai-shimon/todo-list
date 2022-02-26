@@ -1,8 +1,13 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { TodoModule } from './todo/todo.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+enum Port {
+  todo = 5000
 }
-bootstrap();
+const service = async <M>(module: M, port: Port) => {
+  const app = await NestFactory.create(module);
+  app.enableCors()
+  await app.listen(port);
+}
+
+service(TodoModule, Port.todo);
