@@ -2,6 +2,8 @@ import { CacheModule, Module } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { TodoController } from './todo.controller';
 import * as redisStore from 'cache-manager-redis-store';
+import { list } from './todo.setup';
+import { TodoDto } from './todo.dto';
 @Module({
   imports: [
     CacheModule.register({
@@ -15,4 +17,15 @@ import * as redisStore from 'cache-manager-redis-store';
   providers: [TodoService],
   controllers: [TodoController],
 })
-export class TodoModule {}
+export class TodoModule {
+  constructor(private service: TodoService) {
+    // Init Todo
+    this.setup();
+  }
+  setup() {
+    this.service.clear();
+    list.forEach((task: TodoDto) => {
+      this.service.add(task)
+    })
+  }
+}

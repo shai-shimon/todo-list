@@ -9,7 +9,7 @@ export class TodoService implements IAction<TodoDto> {
     constructor(@Inject(CACHE_MANAGER) private cache: Cache) { }
 
     async add(payload?: TodoDto): Promise<IResult<TodoDto>> {
-        payload.id = uuidv4();
+        payload.id = payload.id ? payload.id : uuidv4();
         payload.created = new Date();
         return this.cache
             .set(payload.id, JSON.stringify(payload))
@@ -35,12 +35,17 @@ export class TodoService implements IAction<TodoDto> {
             const task: string = await this.cache.get(key)
             todoList.push(JSON.parse(task))
         }
+
         return success(todoList)
     }
 
     async get(key?: string): Promise<IResult<TodoDto>> {
         return this.cache.get(key)
-            .then((res) => success(res))
+            .then((res: string) => success(JSON.parse(res)))
             .catch((err) => fail(err));
+    }
+
+    clear() {
+        this.cache.store.reset()
     }
 }

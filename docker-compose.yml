@@ -1,14 +1,35 @@
 version: '3.3'
 services:
   cache:
-    container_name: "todo-redis"
-    image: redis:6.2-alpine
+    container_name: todo-redis
+    image: 'redis:6.2-alpine'
     restart: always
     ports:
       - '6379:6379'
     command: redis-server --appendonly yes
-    volumes: 
-      - cache:/data
+    volumes:
+      - 'cache:/data'
+  frontend:
+    container_name: dashboard
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    image: react
+    ports:
+      - '3000:3000'
+    volumes:
+      - './client:/app'
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: server
+    ports:
+      - '5000:5000'
+    volumes:
+      - './server:/app'
+
 volumes:
   cache:
     driver: local

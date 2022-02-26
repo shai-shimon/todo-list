@@ -21,8 +21,8 @@ export class TodoController implements IAction<TodoDto> {
     async remove(@Param() params): Promise<IResult<TodoDto>> {
         return this.service.remove(params.key)
     }
-    
-    @Get(':key')
+
+    @Get('by/:key')
     async get(@Param() params): Promise<IResult<TodoDto>> {
         return this.service.get(params.key)
     }
