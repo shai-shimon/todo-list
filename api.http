@@ -1,1 +1,9 @@
-http://localhost:3001
+# POST http://localhost:5000/todo
+# content-type: application/json
+
+# {
+#     "title": "sample",
+#     "description": "Wed, 21 Oct 2015 18:27:50 GMT"
+# }
+
+GET http://localhost:5000/todo

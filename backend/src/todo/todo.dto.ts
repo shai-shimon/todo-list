@@ -1,6 +1,7 @@
 export interface TodoDto {
-    id?: string;
-    title?: string;
-    description?: string;
-    checked?: boolean;
+  id?: string;
+  title?: string;
+  description?: string;
+  created?: Date;
+  checked?: boolean;
 }

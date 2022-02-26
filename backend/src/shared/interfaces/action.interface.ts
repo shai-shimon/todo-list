@@ -1,8 +1,9 @@
-import { IResult } from ".";
+import { IResult } from '.';
 
-export interface IAction<P, T> {
-    add(payload?: P): Promise<IResult<undefined | T>>;
-    edit(payload?: P): Promise<IResult<undefined | T>>;
-    remove(payload?: P): Promise<IResult<undefined | T>>;
-    get(payload?: P): Promise<IResult<T | T[]>>;
+export interface IAction<Dto> {
+  add(payload?: Dto): Promise<IResult<undefined | Dto>>;
+  edit(payload?: Dto): Promise<IResult<undefined | Dto>>;
+  remove(key?: any): Promise<IResult<undefined | Dto>>;
+  get(key?: any): Promise<IResult<Dto>>;
+  all(): Promise<IResult<Dto[]>>;
 }
