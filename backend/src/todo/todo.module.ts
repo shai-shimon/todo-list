@@ -8,10 +8,11 @@ import { TodoDto } from './todo.dto';
   imports: [
     CacheModule.register({
       store: redisStore,
-      host: 'localhost',
-      port: 6379,
+      host: 'redis-18223.c55.eu-central-1-1.ec2.cloud.redislabs.com',
+      port: 18223,
       max: 41414141,
       ttl: 80808080,
+      password: 'NiNXD0R582w6Q8tDDT6jjr8BuyfprF8U'
     }),
   ],
   providers: [TodoService],

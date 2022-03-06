@@ -1,35 +1,26 @@
 version: '3.3'
 services:
-  cache:
-    container_name: todo-redis
-    image: 'redis:6.2-alpine'
-    restart: always
-    ports:
-      - '6379:6379'
-    command: redis-server --appendonly yes
-    volumes:
-      - 'cache:/data'
-  frontend:
+  dashboard:
     container_name: dashboard
-    build:
-      context: ./dashboard
-      dockerfile: Dockerfile
-    image: react
-    ports:
-      - '3001:3001'
+    build: ./dashboard
     volumes:
-      - './client:/app'
+      - './:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
   backend:
     container_name: backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    image: server
-    ports:
-      - '5000:5000'
+    build: ./backend
     volumes:
-      - './server:/app'
-
-volumes:
-  cache:
-    driver: local
+      - './:/app'
+      - '/app/node_modules'
+    ports:
+      - 5000:5000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
